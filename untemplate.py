@@ -63,3 +63,32 @@ def compareLists(a, b):
       distance[i+1].append(best)
 
   return distance[source_len][target_len], edit_lists[source_len][target_len]
+
+def makeTemplateFromPair(doc1, doc2):
+  """ Returns a list template given a pair of documents """
+  # use the longest one as the source for consistency
+  if len(doc1) >= len(doc2):
+    longer = doc1
+    shorter = doc2
+  else: 
+    longer = doc2
+    shorter = doc1
+  score, edit_list = compareLists(longer, shorter)
+
+  # convert edit_list to template representation
+  template = []
+  for i in range(len(longer)):
+    if edit_list[i] == '=':
+      template.append(longer[i])
+    else:
+      template.append('*')
+
+  return template
+
+
+def makeTemplate(*docs):
+  pass
+
+
+
+
