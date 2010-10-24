@@ -8,8 +8,8 @@ import unittest
 
 
 
-class GDataUtilityTest(unittest.TestCase):
-  """Test case for GData utility methods."""
+class UntemplateTest(unittest.TestCase):
+  """Test case for untemplate methods."""
 
   def testCompareLists(self):
     self.assertEquals(
