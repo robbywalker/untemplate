@@ -40,7 +40,7 @@ class UntemplateTest(unittest.TestCase):
   def testGetData(self):
     # Test the basic case.
     self.assertEquals(
-      [['World'], ['Earth']],
+      [[['World']], [['Earth']]],
       untemplate.getData(
         'Hello World',
         'Hello Earth'
@@ -49,7 +49,7 @@ class UntemplateTest(unittest.TestCase):
 
     # Test a case where the template defined by the first two documents isn't generic enough.
     self.assertEquals(
-      [['Mary Kate'], ['Mary Jane'], ['Bob']],
+      [[['Mary', 'Kate']], [['Mary', 'Jane']], [['Bob']]],
       untemplate.getData(
         'Hello Mary Kate How are you',
         'Hello Mary Jane How are you',
@@ -59,7 +59,7 @@ class UntemplateTest(unittest.TestCase):
 
     # Test another case where the template defined by the first two documents isn't generic enough.
     self.assertEquals(
-      [['Anne Margaret'], ['Mary Margaret'], ['Bob']],
+      [[['Anne', 'Margaret']], [['Mary', 'Margaret']], [['Bob']]],
       untemplate.getData(
         'Hello Anne Margaret How are you',
         'Hello Mary Margaret How are you',
@@ -69,7 +69,7 @@ class UntemplateTest(unittest.TestCase):
 
     # Test another case where the template defined by the first two documents isn't generic enough.
     self.assertEquals(
-      [['B C'], ['E'], ['E C D']],
+      [[['B', 'C']], [['E']], [['E', 'C', 'D']]],
       untemplate.getData(
         'A B C D Z',
         'A E D Z',
@@ -80,7 +80,7 @@ class UntemplateTest(unittest.TestCase):
     # No matter which two documents we try first, the template will not be generic enough.  Also tests
     # multiple simultaneous return values.
     self.assertEquals(
-      [['1', '2', '3'], ['2', '2', '4'], ['1', '7', '8']],
+      [[['1'], ['2'], ['3']], [['2'], ['2'], ['4']], [['1'], ['7'], ['8']]],
       untemplate.getData(
         '1 + 2 + 3 = 6',
         '1 + 3 + 5 = 9'
