@@ -4,8 +4,17 @@
 
 
 def getData(*docs):
-  return None
+  """ Takes docs and returns relevant data for each docs """
+  # split docs into list of words
+  split_docs = []
+  split_docs = map(lambda(doc): doc.split(), docs)
 
+  # make template
+  template = makeTemplate(split_docs)
+
+  # return list of lists of data
+  data = map(lambda(doc): getDataFromDoc(doc, template), split_docs)
+  return data
 
 def compareLists(a, b):
   """Computes the edit distance and list from the two lists.
@@ -106,7 +115,7 @@ def makeTemplate(docs):
   for i in range(1, len(docs)):
     template = makeTemplateFromPair(template, docs[i])
 
-  return template
+  return formatTemplate(template)
 
 def formatTemplate(raw_template):
   """
@@ -132,7 +141,34 @@ def getDataFromDoc(doc, template):
   Must interface with formatTemplate().
   Could eventually replace this with some regex thing.
   """
-  pass
+  matches = []
+  local_doc = doc[:] # make a copy for mutability
+  for i in range(len(template)):
+    print 'template_i', template[i]
+    current_match = []
+    next_from_doc = local_doc.pop(0)
+    if template[i] == '*':
+      print 'next_from_doc', next_from_doc 
+      while i < len(template) or next_from_doc != template[i+1]:
+        current_match.append(next_from_doc)
+        if len(local_doc) == 0:
+          break
+        next_from_doc = local_doc.pop(0)
+        print 'next_from_doc', next_from_doc 
+      local_doc = [next_from_doc] + local_doc # hack to put last one back on front
+      matches.append(current_match) # will add empty ones too
+  return matches
+      
+
+      
+
+
+    
+
+
+
+
+
 
 
 
