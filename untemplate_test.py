@@ -36,9 +36,9 @@ class GDataUtilityTest(unittest.TestCase):
     self.assertEquals(
       [['1', '2', '3'], ['2', '2', '4'], ['1', '7', '8']],
       untemplate.getData(
-        '1 + 2 = 3',
-        '2 + 2 = 4',
-        '1 + 7 = 8'
+        '1 + 2 + 3 = 6',
+        '1 + 3 + 5 = 9'
+        '0 + 2 + 5 = 7'
       )
     )
 
