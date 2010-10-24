@@ -64,8 +64,13 @@ def compareLists(a, b):
 
   return distance[source_len][target_len], edit_lists[source_len][target_len]
 
+
 def makeTemplateFromPair(doc1, doc2):
-  """ Returns a list template given a pair of documents """
+  """ 
+  Returns a list template given a pair of documents
+  Notice that a template of the form returned by this 
+  function can also be in input for generalization
+  """
   # use the longest one as the source for consistency
   if len(doc1) >= len(doc2):
     longer = doc1
@@ -85,9 +90,29 @@ def makeTemplateFromPair(doc1, doc2):
 
   return template
 
+def makeTemplate(docs):
+  """ 
+  Makes the most general template given a collection of documents
+  @ param docs - a list of documents
+  """
+  # handle trivial cases
+  if len(docs) == 0:
+    return None
+  if len(docs) == 1:
+    return docs[0]
 
-def makeTemplate(*docs):
+  # apply pairwise templating
+  template = makeTemplateFromPair(docs[0], docs[1])
+  for i in range(1, len(docs)):
+    template = makeTemplateFromPair(template, docs[i])
+
+  return template
+
+
+def getDataFromDoc(doc, template):
+  """ Applies template to doc to pull out content """
   pass
+
 
 
 
