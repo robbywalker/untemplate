@@ -8,8 +8,34 @@ import unittest
 
 
 
-class GDataUtilityTest(unittest.TestCase):
-  """Test case for GData utility methods."""
+class UntemplateTest(unittest.TestCase):
+  """Test case for untemplate methods."""
+
+  def testCompareLists(self):
+    self.assertEquals(
+      (1, ['=', 'S']),
+      untemplate.compareLists(
+        ['Hello', 'World'],
+        ['Hello', 'Earth'],
+      )
+    )
+
+    self.assertEquals(
+      (1, ['=', 'I', '=']),
+      untemplate.compareLists(
+        ['Hello', 'World'],
+        ['Hello', 'Beautiful', 'World'],
+      )
+    )
+
+    self.assertEquals(
+      (2, ['=', 'S', 'I']),
+      untemplate.compareLists(
+        ['Hello', 'World'],
+        ['Hello', 'Beautiful', 'Earth'],
+      )
+    )
+
 
   def testGetData(self):
     # Test the basic case.
