@@ -16,6 +16,8 @@ def getData(*docs):
   data = map(lambda(doc): getDataFromDoc(doc, template), split_docs)
   return data
 
+
+
 def compareLists(a, b):
   """Computes the edit distance and list from the two lists.
 
@@ -144,17 +146,19 @@ def getDataFromDoc(doc, template):
   matches = []
   local_doc = doc[:] # make a copy for mutability
   for i in range(len(template)):
-    print 'template_i', template[i]
+    #print 'template_i', template[i]
     current_match = []
+    if len(local_doc) == 0:
+          break
     next_from_doc = local_doc.pop(0)
     if template[i] == '*':
-      print 'next_from_doc', next_from_doc 
-      while i < len(template) or next_from_doc != template[i+1]:
+      #print 'next_from_doc', next_from_doc 
+      while i == len(template) - 1 or next_from_doc != template[i+1]:
         current_match.append(next_from_doc)
         if len(local_doc) == 0:
           break
         next_from_doc = local_doc.pop(0)
-        print 'next_from_doc', next_from_doc 
+        #print 'next_from_doc', next_from_doc 
       local_doc = [next_from_doc] + local_doc # hack to put last one back on front
       matches.append(current_match) # will add empty ones too
   return matches
