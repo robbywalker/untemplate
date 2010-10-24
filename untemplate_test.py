@@ -16,8 +16,8 @@ class GDataUtilityTest(unittest.TestCase):
     self.assertEquals(
       [['World'], ['Earth']],
       untemplate.getData(
-        'Hello World!',
-        'Hello Earth!'
+        'Hello World',
+        'Hello Earth'
       )
     )
 
@@ -25,9 +25,29 @@ class GDataUtilityTest(unittest.TestCase):
     self.assertEquals(
       [['Mary Kate'], ['Mary Jane'], ['Bob']],
       untemplate.getData(
-        'Hello Mary Kate.  How are you?',
-        'Hello Mary Jane.  How are you?',
-        'Hello Bob.  How are you?'
+        'Hello Mary Kate How are you',
+        'Hello Mary Jane How are you',
+        'Hello Bob How are you'
+      )
+    )
+
+    # Test another case where the template defined by the first two documents isn't generic enough.
+    self.assertEquals(
+      [['Anne Margaret'], ['Mary Margaret'], ['Bob']],
+      untemplate.getData(
+        'Hello Anne Margaret How are you',
+        'Hello Mary Margaret How are you',
+        'Hello Bob How are you'
+      )
+    )
+
+    # Test another case where the template defined by the first two documents isn't generic enough.
+    self.assertEquals(
+      [['B C'], ['E'], ['E C D']],
+      untemplate.getData(
+        'A B C D Z',
+        'A E D Z',
+        'A E C D D Z'
       )
     )
 
