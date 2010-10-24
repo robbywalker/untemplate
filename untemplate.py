@@ -108,9 +108,30 @@ def makeTemplate(docs):
 
   return template
 
+def formatTemplate(raw_template):
+  """
+  Get the template into the format we want for parsing.
+  Interfaces with getDataFromDoc().
+  Could replace with regex type thing eventually.
+  """
+  clean_template = []
+  # Compress any runs of multiple *s into single *
+  last = raw_template[0]
+  clean_template.append(last)
+  for i in range(1, len(raw_template)):
+    if last == '*' and raw_template[i] == '*':
+      continue
+    else:
+      last = raw_template[i]
+      clean_template.append(last)
+  return clean_template      
 
 def getDataFromDoc(doc, template):
-  """ Applies template to doc to pull out content """
+  """ 
+  Applies template to doc to pull out content.
+  Must interface with formatTemplate().
+  Could eventually replace this with some regex thing.
+  """
   pass
 
 
