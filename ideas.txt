@@ -1,0 +1,6 @@
+* Similar Document Parsing
+https://www.quora.com/What-s-the-best-way-to-parse-a-resume-into-database-fields/answer/Jeff-Hammerbacher
+
+** Wrapping Induction (and paper)
+http://www.cs.washington.edu/homes/weld/wrappers.html
+
