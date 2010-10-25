@@ -11,6 +11,7 @@ def getData(*docs):
 
   # make template
   template = makeTemplate(split_docs)
+  #return template # uncomment to just get template for debugging
 
   # return list of lists of data
   data = map(lambda(doc): getDataFromDoc(doc, template), split_docs)
@@ -142,39 +143,42 @@ def getDataFromDoc(doc, template):
   Applies template to doc to pull out content.
   Must interface with formatTemplate().
   Could eventually replace this with some regex thing.
-  """
+  Use compareLists and state machine type implementation.
+  """ 
+  states = {'no_content' : 0, 'writing_content' : 1}
+  state = states['no_content']
   matches = []
-  local_doc = doc[:] # make a copy for mutability
-  for i in range(len(template)):
-    #print 'template_i', template[i]
-    current_match = []
-    if len(local_doc) == 0:
-          break
-    next_from_doc = local_doc.pop(0)
-    if template[i] == '*':
-      #print 'next_from_doc', next_from_doc 
-      while i == len(template) - 1 or next_from_doc != template[i+1]:
-        current_match.append(next_from_doc)
-        if len(local_doc) == 0:
-          break
-        next_from_doc = local_doc.pop(0)
-        #print 'next_from_doc', next_from_doc 
-      local_doc = [next_from_doc] + local_doc # hack to put last one back on front
-      matches.append(current_match) # will add empty ones too
-  return matches
-      
+  # get edit_list which should only have '=' and runs of 'S'('I')* or 'D's
+  score, edit_list = compareLists(template, doc)
+  #print 'template: ', template 
+  #print 'edit_list: ', edit_list
+  #print 'doc: ', doc
+  assert(len(edit_list) >= len(doc))
 
-      
+  current_matches = [] 
+  # loop over edit_list to to find matches
+  for i in range(len(edit_list)):
+    if state == states['no_content']:
+      # check whether to enter writing state
+      if edit_list[i] == '=':
+        continue
+      elif edit_list[i] == 'D':
+        matches.append([]) # signify empty frame
+      elif edit_list[i] == 'S':
+        state = states['writing_content']
+        current_matches = [doc[i]]
+    else: #state == states['writing_content']
+      # check whether to stop writing content
+      if edit_list[i] == '=':
+        state = states['no_content']
+        matches.append(current_matches)
+        current_matches = [] 
+      else:
+        current_matches.append(doc[i])
 
+  # add anything that was in writing state when loop ended 
+  if len(current_matches) > 0:
+    matches.append(current_matches)
 
-    
-
-
-
-
-
-
-
-
-
+  return matches 
 
